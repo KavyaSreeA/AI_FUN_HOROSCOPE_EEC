@@ -4,39 +4,59 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AI Astrologer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <main class="card">
-    <h1>&#10024; AI Astrologer</h1>
-    <p class="sub">Real birth chart calculations, interpreted by an LLM.</p>
+    <header class="masthead">
+      <div class="glyphs" aria-hidden="true">&#9800;&#xFE0E; &#9801;&#xFE0E; &#9802;&#xFE0E; &#9803;&#xFE0E; &#9804;&#xFE0E; &#9805;&#xFE0E; &#9806;&#xFE0E; &#9807;&#xFE0E; &#9808;&#xFE0E; &#9809;&#xFE0E; &#9810;&#xFE0E; &#9811;&#xFE0E;</div>
+      <h1>AI Astrologer</h1>
+      <p class="sub">Your birth chart, read by the stars and an LLM</p>
+      <div class="rule" aria-hidden="true">&#9737;&#xFE0E;</div>
+    </header>
 
-    <form id="form">
-      <label>Name (optional)
-        <input id="name" type="text" maxlength="40" placeholder="Star traveler">
-      </label>
-      <div class="row">
-        <label>Date of birth
-          <input id="dob" type="date" required>
-        </label>
-        <label>Time of birth
-          <input id="time" type="time" required>
-        </label>
+    <form id="form" autocomplete="off">
+      <div class="section-title"><span>Birth details</span></div>
+
+      <div class="field">
+        <label for="name">Name <em>optional</em></label>
+        <div class="input-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><input id="name" type="text" maxlength="40" placeholder="What should the stars call you?"></div>
       </div>
-      <label>Place of birth
-        <input id="place" type="text" required placeholder="City, Country (e.g. Hyderabad, India)">
-      </label>
+
       <div class="row">
-        <label>Forecast for
-          <select id="period">{% for p in periods %}<option>{{ p }}</option>{% endfor %}</select>
-        </label>
-        <label>Focus
-          <select id="focus">{% for f in focuses %}<option>{{ f }}</option>{% endfor %}</select>
-        </label>
+        <div class="field">
+          <label for="dob">Date of birth</label>
+          <div class="input-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><input id="dob" type="date" required></div>
+        </div>
+        <div class="field">
+          <label for="time">Time of birth</label>
+          <div class="input-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><input id="time" type="time" required></div>
+        </div>
       </div>
-      <label>Tone
-        <select id="tone">{% for t in tones %}<option value="{{ t }}">{{ t|capitalize }}</option>{% endfor %}</select>
-      </label>
+
+      <div class="field">
+        <label for="place">Place of birth</label>
+        <div class="input-wrap"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><input id="place" type="text" required placeholder="City, Country  (e.g. Hyderabad, India)"></div>
+        <p class="hint">An exact birth time gives an accurate rising sign.</p>
+      </div>
+
+      <div class="section-title"><span>Your reading</span></div>
+
+      <div class="field">
+        <label>Forecast for</label>
+        <div class="chips">{% for x in periods %}<input type="radio" name="period" id="period-{{ loop.index }}" value="{{ x }}" {% if loop.first %}checked{% endif %}><label for="period-{{ loop.index }}">{{ x|capitalize }}</label>{% endfor %}</div>
+      </div>
+      <div class="field">
+        <label>Focus</label>
+        <div class="chips">{% for x in focuses %}<input type="radio" name="focus" id="focus-{{ loop.index }}" value="{{ x }}" {% if loop.first %}checked{% endif %}><label for="focus-{{ loop.index }}">{{ x|capitalize }}</label>{% endfor %}</div>
+      </div>
+      <div class="field">
+        <label>Tone</label>
+        <div class="chips">{% for x in tones %}<input type="radio" name="tone" id="tone-{{ loop.index }}" value="{{ x }}" {% if loop.first %}checked{% endif %}><label for="tone-{{ loop.index }}">{{ x|capitalize }}</label>{% endfor %}</div>
+      </div>
+
       <button id="go" type="submit">Read my stars</button>
     </form>
     <p id="error" class="error" hidden></p>
@@ -59,6 +79,9 @@
 
   <script>
     const $ = (id) => document.getElementById(id);
+    const GLYPH = {Aries:"\u2648",Taurus:"\u2649",Gemini:"\u264A",Cancer:"\u264B",Leo:"\u264C",Virgo:"\u264D",Libra:"\u264E",Scorpio:"\u264F",Sagittarius:"\u2650",Capricorn:"\u2651",Aquarius:"\u2652",Pisces:"\u2653"};
+    const glyph = (s) => (GLYPH[s] || "") + "\uFE0E";
+    const chip = (g) => document.querySelector(`input[name="${g}"]:checked`).value;
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
     const inline = (s) => s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
 
@@ -93,8 +116,8 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             name: $("name").value, dob: $("dob").value, time: $("time").value,
-            place: $("place").value, period: $("period").value,
-            focus: $("focus").value, tone: $("tone").value,
+            place: $("place").value, period: chip("period"),
+            focus: chip("focus"), tone: chip("tone"),
           }),
         });
         const data = await res.json();
@@ -107,12 +130,12 @@
         $("plate").hidden = false;
         $("plateCap").textContent = `${p.Sun.sign}: Sidney Hall, Urania's Mirror (1824), public domain`;
         $("big3").innerHTML = [["Sun", p.Sun.sign], ["Moon", p.Moon.sign], ["Rising", c.ascendant.sign]]
-          .map(([k, v]) => `<div><span>${k}</span><b>${esc(v)}</b></div>`).join("");
+          .map(([k, v]) => `<div><i>${glyph(v)}</i><span>${k}</span><b>${esc(v)}</b></div>`).join("");
         $("where").textContent = `${c.place} (${c.timezone}, UTC${c.utc_offset})`;
         const rows = [["Ascendant", c.ascendant, 1], ["Midheaven", c.midheaven, 10]]
           .concat(Object.entries(p).map(([n, v]) => [n + (v.retrograde ? " (R)" : ""), v, v.house]));
         $("chart").querySelector("tbody").innerHTML = rows
-          .map(([n, v, h]) => `<tr><td>${esc(n)}</td><td>${esc(v.sign)}</td><td>${v.degree.toFixed(1)}&deg;</td><td>${h}</td></tr>`).join("");
+          .map(([n, v, h]) => `<tr><td>${esc(n)}</td><td><span class="g">${glyph(v.sign)}</span>${esc(v.sign)}</td><td>${v.degree.toFixed(1)}&deg;</td><td>${h}</td></tr>`).join("");
         $("reading").innerHTML = markdown(data.reading);
         $("result").hidden = false;
       } catch (err) {
