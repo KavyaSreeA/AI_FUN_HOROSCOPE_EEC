@@ -1,0 +1,61 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  font-family: system-ui, sans-serif;
+  color: #eee;
+  background: radial-gradient(circle at top, #2b1b5a, #0d0820 70%);
+}
+.card {
+  width: 100%;
+  max-width: 460px;
+  padding: 28px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+h1 { margin: 0 0 4px; }
+.sub { margin: 0 0 20px; color: #bbb; }
+label { display: block; margin-bottom: 14px; font-size: 0.9rem; color: #ccc; }
+input, select {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background: #1a1233;
+  color: #fff;
+  font-size: 1rem;
+}
+button {
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 8px;
+  background: #8b5cf6;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+button:disabled { opacity: 0.6; cursor: wait; }
+#result { margin-top: 22px; padding-top: 16px; border-top: 1px solid #444; }
+#result h2 { margin: 0 0 8px; }
+#text { white-space: pre-wrap; line-height: 1.5; }
+#result small { color: #999; }
+.error { color: #ff8080; }
+footer { margin-top: 20px; font-size: 0.75rem; color: #888; text-align: center; }
+.card { max-width: 640px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 480px) { .row { grid-template-columns: 1fr; } }
+.big3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+.big3 div { background: rgba(139, 92, 246, 0.25); border-radius: 10px; padding: 10px; text-align: center; }
+.big3 span { display: block; font-size: 0.75rem; color: #ccc; }
+.big3 b { font-size: 1.1rem; }
+table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 0.9rem; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid #333; }
+#reading h3 { margin: 16px 0 4px; color: #c4b5fd; }
+#reading p { line-height: 1.55; margin: 6px 0; }
