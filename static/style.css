@@ -7,15 +7,17 @@ body {
   padding: 16px;
   font-family: system-ui, sans-serif;
   color: #eee;
-  background: radial-gradient(circle at top, #2b1b5a, #0d0820 70%);
+  background: linear-gradient(rgba(8, 5, 25, 0.55), rgba(8, 5, 25, 0.75)),
+    url('img/bg.jpg') center / cover fixed no-repeat #0d0820;
 }
 .card {
   width: 100%;
   max-width: 460px;
   padding: 28px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(12, 8, 32, 0.72);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 h1 { margin: 0 0 4px; }
 .sub { margin: 0 0 20px; color: #bbb; }
@@ -59,3 +61,5 @@ table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 0
 th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid #333; }
 #reading h3 { margin: 16px 0 4px; color: #c4b5fd; }
 #reading p { line-height: 1.55; margin: 6px 0; }
+.plate { display: block; max-width: 100%; max-height: 360px; margin: 0 auto 6px; border-radius: 8px; border: 4px solid #e8dcc0; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6); }
+.credit { display: block; text-align: center; margin-bottom: 16px; }
